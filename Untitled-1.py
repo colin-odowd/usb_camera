@@ -1,3 +1,4 @@
+
 # -*- coding: utf-8 -*-
 
 # Form implementation generated from reading ui file 'untitled.ui'
@@ -135,7 +136,6 @@ class Ui_MainWindow(object):
         self.brightnessSlider.setGeometry(QtCore.QRect(1330, 220, 50, 100))
         self.brightnessSlider.setObjectName("brightnessSlider")
         self.brightnessSlider.valueChanged.connect(self.BrightnessSliderChange) 
-
         self.brightnessLabel = QtWidgets.QLabel(self.cameraViewer)
         self.brightnessLabel.setGeometry(QtCore.QRect(1330, 230, 150, 50))
         self.brightnessLabel.setText("Brightness: " + str(self.brightnessSlider.value()))
@@ -313,3 +313,4 @@ if __name__ == "__main__":
     ui.setupUi(MainWindow)
     MainWindow.show()
     sys.exit(app.exec_())
+
