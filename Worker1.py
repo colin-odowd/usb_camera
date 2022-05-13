@@ -1,12 +1,10 @@
 import cv2
-import numpy as np
+import time
 from PyQt5.QtGui import  QPixmap
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from datetime import datetime
-import time
-
 
 class ImagePlayer(QThread):
     def __init__(self):
@@ -26,7 +24,6 @@ class ImagePlayer(QThread):
         while self.ThreadActive:
             ret, self.frame = self.Capture.read()
             if ret:
-                #self.FlippedImage = cv2.flip(frame, 1)
                 Image = cv2.cvtColor(self.frame, cv2.COLOR_BGR2RGB)
                 ConvertToQtFormat = QImage(Image.data, Image.shape[1], Image.shape[0], QImage.Format_RGB888)
                 Pic = ConvertToQtFormat.scaled(1280, 960, Qt.KeepAspectRatio)
@@ -43,13 +40,15 @@ class ImagePlayer(QThread):
     def saveImage(self):
         time = datetime.now()      
         img_name = "image_{}.png".format(time.strftime("%Hh%Mm%Ss"))
+        image_path = "Saved/Images/" + img_name
         if self.Capture.isOpened():
-            cv2.imwrite(img_name, self.frame)
+            cv2.imwrite(image_path, self.frame)
     def startVideo(self):
         time = datetime.now()         
         video_name = "video_{}.avi".format(time.strftime("%Hh%Mm%Ss"))
+        video_path = "Saved/Videos/" + video_name
         codec = cv2.VideoWriter_fourcc(*'MJPG')
-        self.videoFile = cv2.VideoWriter(video_name, codec, 30.0, (640, 480))
+        self.videoFile = cv2.VideoWriter(video_path, codec, 30.0, (640, 480))
         self.videoCapture = True
         self.saveVideo = True
     def stopVideo(self):
