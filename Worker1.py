@@ -5,6 +5,8 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from datetime import datetime
+import time
+
 
 class ImagePlayer(QThread):
     def __init__(self):
@@ -13,6 +15,7 @@ class ImagePlayer(QThread):
         self.Capture = None
         self.frame = None
         self.videoCapture = None
+        self.saveVideo = None
         self.brightnessValue = 0
         self.videoFile = None
 
@@ -48,9 +51,12 @@ class ImagePlayer(QThread):
         codec = cv2.VideoWriter_fourcc(*'MJPG')
         self.videoFile = cv2.VideoWriter(video_name, codec, 30.0, (640, 480))
         self.videoCapture = True
+        self.saveVideo = True
     def stopVideo(self):
-        if self.videoCapture:
-            self.videoFile.release()
         self.videoCapture = False
+        time.sleep(0.1)
+        if self.saveVideo:
+            self.videoFile.release()
+        self.saveVideo = False
     def updateBrightness(self, value):
         self.brightnessValue = value
