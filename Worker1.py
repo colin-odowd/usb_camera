@@ -6,6 +6,8 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from datetime import datetime
 
+from numpy import True_
+
 class ImagePlayer(QThread):
     def __init__(self):
         super(ImagePlayer, self).__init__()
@@ -18,6 +20,8 @@ class ImagePlayer(QThread):
         self.videoFile = None
 
     ImageUpdate = pyqtSignal(QImage)
+    CameraConnected = pyqtSignal(bool)
+
     def run(self):
         self.ThreadActive = True
         self.Capture = cv2.VideoCapture(0)
@@ -27,12 +31,15 @@ class ImagePlayer(QThread):
                 Image = cv2.cvtColor(self.frame, cv2.COLOR_BGR2RGB)
                 ConvertToQtFormat = QImage(Image.data, Image.shape[1], Image.shape[0], QImage.Format_RGB888)
                 Pic = ConvertToQtFormat.scaled(1280, 960, Qt.KeepAspectRatio)
+                self.CameraConnected.emit(True)
                 self.ImageUpdate.emit(Pic)
                 if self.videoCapture:
                     self.videoFile.write(self.frame)
             else:
-                Pic = QPixmap('background.png')
+                Pic = QImage(QPixmap('undetected-camera.png').scaled(1280,960, Qt.KeepAspectRatio))
+                self.CameraConnected.emit(False)
                 self.ImageUpdate.emit(Pic)
+                self.Capture = cv2.VideoCapture(0)
         self.Capture.release()
     def stop(self):
         self.ThreadActive = False

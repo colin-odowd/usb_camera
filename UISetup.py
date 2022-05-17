@@ -12,12 +12,11 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle("Project Starfish Prototype GUI")
         MainWindow.resize(1920, 1080)
         MainWindow.setStyleSheet("background-color: rgb(9, 40, 122);")
-        QApplication.setOverrideCursor(Qt.CrossCursor)
 
         self.cameraViewer = QtWidgets.QWidget(MainWindow)
         self.cameraViewer.setObjectName("cameraViewer")
 
-        self.logo =  QtWidgets.QLabel(self.cameraViewer)
+        self.logo = QtWidgets.QLabel(self.cameraViewer)
         self.logo.setGeometry(QtCore.QRect(825, 20, 270, 42))
         pixmap = QPixmap('teleflex-logo.png')
         pixmap = pixmap.scaled(270, 42)        
@@ -81,19 +80,12 @@ class Ui_MainWindow(object):
         self.stopVideoBTN.mouseReleaseEvent = self.stopVideoButtonRelease
 
         MainWindow.setCentralWidget(self.cameraViewer)
-        self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 26))
-        self.menubar.setObjectName("menubar")
-        MainWindow.setMenuBar(self.menubar)
-        self.statusbar = QtWidgets.QStatusBar(MainWindow)
-        self.statusbar.setObjectName("statusbar")
-        MainWindow.setStatusBar(self.statusbar)
-
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
         self.ImagePlayer = ImagePlayer()
         self.ImagePlayer.start()
+        self.ImagePlayer.CameraConnected.connect(self.isCameraConnected)
         self.ImagePlayer.ImageUpdate.connect(self.ImageUpdateSlot)
 
         self.HeaderBar = HeaderBar()
@@ -110,6 +102,20 @@ class Ui_MainWindow(object):
     
     def updateBattery(self, battery):
         self.batteryLabel.setText(battery + "%")
+
+    def isCameraConnected(self, camera):
+        if not camera:
+            self.startBTN.hide()
+            self.stopBTN.hide()
+            self.saveImageBTN.hide()
+            self.startVideoBTN.hide()
+            self.stopVideoBTN.hide()
+        else: 
+            self.startBTN.show()
+            self.stopBTN.show()
+            self.saveImageBTN.show()
+            self.startVideoBTN.show()
+            self.stopVideoBTN.show() 
 
     def ImageUpdateSlot(self, Image):
         self.cameraFeed.setPixmap(QPixmap.fromImage(Image))
