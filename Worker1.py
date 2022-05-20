@@ -1,5 +1,6 @@
 import cv2
 import time
+import os.path     
 from PyQt5.QtGui import  QPixmap
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
@@ -36,31 +37,42 @@ class ImagePlayer(QThread):
                 if self.videoCapture:
                     self.videoFile.write(self.frame)
             else:
-                Pic = QImage(QPixmap('undetected-camera.png').scaled(1280,960, Qt.KeepAspectRatio))
+                Pic = QImage(QPixmap('Graphics/undetected-camera.png').scaled(1280,960, Qt.KeepAspectRatio))
                 self.CameraConnected.emit(False)
                 self.ImageUpdate.emit(Pic)
+                if self.saveVideo:
+                    self.videoFile.release()
+                    self.saveVideo = False
                 self.Capture = cv2.VideoCapture(0)
         self.Capture.release()
     def stop(self):
         self.ThreadActive = False
         self.quit()
-    def saveImage(self):
-        time = datetime.now()      
-        img_name = "image_{}.png".format(time.strftime("%Hh%Mm%Ss"))
-        image_path = "Saved/Images/" + img_name
+    def saveImage(self):     
+        date = datetime.now().strftime("%B-%d-%Y")
+        date_folder = "Saved/Images/" + date
+        isdir = os.path.isdir(date_folder) 
+        if not isdir:
+            os.mkdir(date_folder)
+        img_name = "image_{}.png".format(datetime.now().strftime("%Hh%Mm%Ss"))
+        image_path = date_folder + "/" + img_name
         if self.Capture.isOpened():
             cv2.imwrite(image_path, self.frame)
     def startVideo(self):
-        time = datetime.now()         
-        video_name = "video_{}.avi".format(time.strftime("%Hh%Mm%Ss"))
-        video_path = "Saved/Videos/" + video_name
+        date = datetime.now().strftime("%B-%d-%Y")
+        date_folder = "Saved/Videos/" + date
+        isdir = os.path.isdir(date_folder) 
+        if not isdir:
+            os.mkdir(date_folder)        
+        video_name = "video_{}.avi".format(datetime.now().strftime("%Hh%Mm%Ss"))
+        video_path = date_folder + "/" + video_name
         codec = cv2.VideoWriter_fourcc(*'MJPG')
         self.videoFile = cv2.VideoWriter(video_path, codec, 30.0, (640, 480))
         self.videoCapture = True
         self.saveVideo = True
     def stopVideo(self):
         self.videoCapture = False
-        time.sleep(0.1)
+        time.sleep(0.1) #delay to prevent main loop from writing frame to closed video file (run method always runs)
         if self.saveVideo:
             self.videoFile.release()
         self.saveVideo = False
