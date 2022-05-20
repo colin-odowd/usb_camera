@@ -40,6 +40,10 @@ class Ui_MainWindow(object):
         self.batteryLabel.setFont(QtGui.QFont("Times", 15, weight=QtGui.QFont.Bold))
         self.batteryLabel.setStyleSheet("color : white")
 
+        self.batteryIcon = QtWidgets.QLabel(self.cameraViewer)
+        self.batteryIcon.setGeometry(QtCore.QRect(1710, 15, 100, 50))
+        self.batteryIcon.setObjectName("startBTN")
+
         self.cameraFeed = QtWidgets.QLabel(self.cameraViewer)
         self.cameraFeed.setGeometry(QtCore.QRect(320, 110, 1280, 960))
         self.cameraFeed.setObjectName("cameraFeed")
@@ -102,6 +106,18 @@ class Ui_MainWindow(object):
     
     def updateBattery(self, battery):
         self.batteryLabel.setText(battery + "%")
+        battery = int(battery)
+        if battery < 10:
+            self.batteryIcon.setPixmap(QPixmap("batteryUltraLow.png").scaled(100,50))
+        elif battery >= 10 and battery < 40:
+            self.batteryIcon.setPixmap(QPixmap("batteryLow.png").scaled(100,50))
+        elif battery >= 40 and battery < 60:
+            self.batteryIcon.setPixmap(QPixmap("batteryMid.png").scaled(100,50))
+        elif battery >=60 and battery < 90:
+            self.batteryIcon.setPixmap(QPixmap("batteryHigh.png").scaled(100,50))
+        else:
+            self.batteryIcon.setPixmap(QPixmap("batteryUltraHigh.png").scaled(100,50))
+
 
     def isCameraConnected(self, camera):
         if not camera:
