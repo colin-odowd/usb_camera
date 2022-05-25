@@ -10,6 +10,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.setWindowTitle("Project Starfish Prototype GUI")
+        MainWindow.setWindowFlags(Qt.FramelessWindowHint)
         MainWindow.resize(1920, 1080)
         #MainWindow.setStyleSheet("background-color: rgb(9, 40, 122);") #navy blue (Teleflex color)
         MainWindow.setStyleSheet("background-color: rgb(0, 0, 0);") #black
