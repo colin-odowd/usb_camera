@@ -5,11 +5,15 @@ from PyQt5.QtCore import *
 from PyQt5.QtWidgets import QApplication
 from Worker1 import ImagePlayer
 from Worker2 import HeaderBar
+from PyQt5.QtWidgets import QApplication, QWidget, QTreeView, QFileSystemModel, QVBoxLayout
+from PyQt5.QtCore import QModelIndex
+
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.setWindowTitle("Project Starfish Prototype GUI")
+        MainWindow.setWindowFlags(Qt.FramelessWindowHint)
         MainWindow.resize(1920, 1080)
         #MainWindow.setStyleSheet("background-color: rgb(9, 40, 122);") #navy blue (Teleflex color)
         MainWindow.setStyleSheet("background-color: rgb(0, 0, 0);") #black
@@ -48,6 +52,20 @@ class Ui_MainWindow(object):
         self.cameraFeed = QtWidgets.QLabel(self.cameraViewer)
         self.cameraFeed.setGeometry(QtCore.QRect(320, 110, 1280, 960))
         self.cameraFeed.setObjectName("cameraFeed")
+
+        # dirPath = "Saved/"
+        # fileFilters = ['Images/ (*.gitkeep)', 'Videos/ (*.gitkeep)']
+        # self.fileStructureModel = QtWidgets.QFileSystemModel(self.cameraViewer)
+        # self.fileStructureModel.setRootPath(dirPath)
+        # self.fileStructureModel.setNameFilters(fileFilters)
+        # self.fileStructureModel.setNameFilterDisables(False)
+        # self.fileStructureTree =  QtWidgets.QTreeView(self.cameraViewer)
+        # self.fileStructureTree.setModel(self.fileStructureModel)
+        # self.fileStructureTree.setRootIndex(self.fileStructureModel.index(dirPath))
+        # self.fileStructureTree.setColumnWidth(0,250)
+        # self.fileStructureTree.setGeometry(QtCore.QRect(550, 125, 820, 250))
+        # self.fileStructureTree.setAlternatingRowColors(True)
+        # self.fileStructureTree.setStyleSheet("background-color: rgb(255,165,0)")
 
         self.patientNotesBTN = QtWidgets.QLabel(self.cameraViewer)
         self.patientNotesBTN.setPixmap(QPixmap("Graphics/patientNotesButton.png").scaled(100,100))
@@ -135,6 +153,7 @@ class Ui_MainWindow(object):
             self.stopVideoBTN.hide()
             self.fileExplorerBTN.hide()
             self.settingsBTN.hide()
+            #self.fileStructureTree.hide()
         else: 
             self.patientNotesBTN.show()
             self.saveImageBTN.show()
