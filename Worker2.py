@@ -1,3 +1,7 @@
+# Autor: Colin O'Dowd
+# Project Starfish
+# Function: Thread to handle the header bar
+
 import time
 import psutil
 from PyQt5.QtGui import *

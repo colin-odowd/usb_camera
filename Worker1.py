@@ -1,3 +1,7 @@
+# Autor: Colin O'Dowd
+# Project Starfish
+# Function: Thread to handle the camera application
+
 import cv2
 import time
 import os.path     
