@@ -5,7 +5,6 @@
 import cv2
 import time
 import os.path     
-from PyQt5.QtGui import  QPixmap
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
