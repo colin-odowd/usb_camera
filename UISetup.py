@@ -29,13 +29,13 @@ class UI_MainWindow(QMainWindow):
         self.logo.setPixmap(pixmap)
 
         self.dateLabel = QtWidgets.QLabel(self.cameraViewer)
-        self.dateLabel.setGeometry(QtCore.QRect(20, 15, 225, 50))
+        self.dateLabel.setGeometry(QtCore.QRect(20, 15, 300, 50))
         self.dateLabel.setObjectName("dateLabel")
         self.dateLabel.setFont(QtGui.QFont("Times", 15, weight=QtGui.QFont.Bold))
         self.dateLabel.setStyleSheet("color : rgb(255,165,0)")
 
         self.timeLabel = QtWidgets.QLabel(self.cameraViewer)
-        self.timeLabel.setGeometry(QtCore.QRect(245, 15, 225, 50))
+        self.timeLabel.setGeometry(QtCore.QRect(350, 15, 150, 50))
         self.timeLabel.setObjectName("timeLabel")
         self.timeLabel.setFont(QtGui.QFont("Times", 15, weight=QtGui.QFont.Bold))
         self.timeLabel.setStyleSheet("color : rgb(255,165,0)")
