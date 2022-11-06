@@ -46,9 +46,11 @@ class ImagePlayer(QThread):
                     self.saveVideo = False
                 self.Capture = cv2.VideoCapture(0)
         self.Capture.release()
+
     def stop(self):
         self.ThreadActive = False
         self.quit()
+
     def saveImage(self):     
         date = datetime.now().strftime("%B-%d-%Y")
         date_folder = "Saved/Images/" + date
@@ -59,6 +61,7 @@ class ImagePlayer(QThread):
         image_path = date_folder + "/" + img_name
         if self.Capture.isOpened():
             cv2.imwrite(image_path, self.frame)
+
     def startVideo(self):
         date = datetime.now().strftime("%B-%d-%Y")
         date_folder = "Saved/Videos/" + date
@@ -71,11 +74,14 @@ class ImagePlayer(QThread):
         self.videoFile = cv2.VideoWriter(video_path, codec, 30.0, (640, 480))
         self.videoCapture = True
         self.saveVideo = True
+
     def stopVideo(self):
         self.videoCapture = False
         time.sleep(0.1) #delay to prevent main loop from writing frame to closed video file (run method always runs)
         if self.saveVideo:
             self.videoFile.release()
         self.saveVideo = False
+
     def updateBrightness(self, value):
         self.brightnessValue = value
+    
